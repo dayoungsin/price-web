@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>단가 조회</title>
+</head>
+<body>
+<h2>회사 단가 조회</h2>
+
+<form method="post">
+    <input type="text" name="name" placeholder="품명 입력">
+    <button type="submit">검색</button>
+</form>
+
+{% if results is not none %}
+    <ul>
+    {% for _, r in results.iterrows() %}
+        <li>{{ r["name"] }} : {{ "{:,}".format(r["price"]) }} 원</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+</body>
+</html>
