@@ -89,52 +89,81 @@
     <h2>회사 단가 조회</h2>
 
     <form method="post">
-      <!-- group1 -->
-      <select name="group1" onchange="this.form.submit()">
-        <option value="">구분1 선택</option>
-        {% for g1 in group1_list %}
-          <option value="{{ g1 }}" {% if g1 == selected_group1 %}selected{% endif %}>
-            {{ g1 }}
-          </option>
-        {% endfor %}
-      </select>
 
-      <!-- group2 -->
-      {% if group2_list %}
-      <select name="group2" onchange="this.form.submit()">
-        <option value="">구분2 선택</option>
-        {% for g2 in group2_list %}
-          <option value="{{ g2 }}" {% if g2 == selected_group2 %}selected{% endif %}>
-            {{ g2 }}
-          </option>
-        {% endfor %}
-      </select>
-      {% endif %}
-    </form>
+  <!-- group1 -->
+  <select name="group1" onchange="this.form.submit()">
+    <option value="">구분 1 선택</option>
+    {% for g in group1_list %}
+      <option value="{{ g }}" {% if g == selected_group1 %}selected{% endif %}>
+        {{ g }}
+      </option>
+    {% endfor %}
+  </select>
+
+  <!-- group2 -->
+  {% if group2_list %}
+  <select name="group2" onchange="this.form.submit()">
+    <option value="">구분 2 선택</option>
+    {% for g in group2_list %}
+      <option value="{{ g }}" {% if g == selected_group2 %}selected{% endif %}>
+        {{ g }}
+      </option>
+    {% endfor %}
+  </select>
+  {% endif %}
+
+  <!-- group3 -->
+  {% if group3_list %}
+  <select name="group3" onchange="this.form.submit()">
+    <option value="">구분 3 선택</option>
+    {% for g in group3_list %}
+      <option value="{{ g }}" {% if g == selected_group3 %}selected{% endif %}>
+        {{ g }}
+      </option>
+    {% endfor %}
+  </select>
+  {% endif %}
+
+  <!-- group4 -->
+  {% if group4_list %}
+  <select name="group4" onchange="this.form.submit()">
+    <option value="">구분 4 선택</option>
+    {% for g in group4_list %}
+      <option value="{{ g }}" {% if g == selected_group4 %}selected{% endif %}>
+        {{ g }}
+      </option>
+    {% endfor %}
+  </select>
+  {% endif %}
+
+</form>
+
 
     {% if results is not none %}
-      <div class="result-list">
+  <div class="result-list">
 
-        {% if not results.empty %}
-          {% for _, r in results.iterrows() %}
-            <div class="card">
-              <div class="card-name">{{ r["name"] }}</div>
+    {% if not results.empty %}
+      {% for _, r in results.iterrows() %}
+        <div class="card">
+          <div class="card-name">{{ r["name"] }}</div>
 
-              {% if r["note"] %}
-                <div class="card-note">※ {{ r["note"] }}</div>
-              {% endif %}
+          {% if r["note"] %}
+            <div class="card-note">※ {{ r["note"] }}</div>
+          {% endif %}
 
-              <div class="card-price">{{ r["price_fmt"] }}</div>
-            </div>
-          {% endfor %}
-        {% else %}
-          <p style="text-align:center; color:#6b7280;">
-            검색 결과가 없습니다.
-          </p>
-        {% endif %}
-
-      </div>
+          <div class="card-price">{{ r["price_fmt"] }}</div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p style="text-align:center; color:#6b7280;">
+        검색 결과가 없습니다.
+      </p>
     {% endif %}
+
+  </div>
+{% endif %}
+
   </div>
 </body>
 </html>
+
