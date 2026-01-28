@@ -125,24 +125,27 @@
 
     {% if results is not none %}
   <div class="result-list">
-    {% for _, r in results.iterrows() %}
-      <div class="card">
-        <div class="card-name">
-          {{ r["name"] }}
+
+    {% if not results.empty %}
+      {% for _, r in results.iterrows() %}
+
+        <div class="card">
+          <div class="card-name">{{ r["name"] }}</div>
+
+          {% if r["note"] %}
+            <div class="card-note">※ {{ r["note"] }}</div>
+          {% endif %}
+
+          <div class="card-price">{{ r["price_fmt"] }}</div>
         </div>
 
-        {% if r["note"] %}
-          <div class="card-note">
-            ※ {{ r["note"] }}
-          </div>
-        {% endif %}
+      {% endfor %}
+    {% else %}
+      <p style="text-align:center; color:#6b7280;">
+        검색 결과가 없습니다.
+      </p>
+    {% endif %}
 
-        <div class="card-price">
-          {{ r["price_fmt"] }}
-        </div>
-      </div>
-    {% endfor %}
   </div>
 {% endif %}
-
 
