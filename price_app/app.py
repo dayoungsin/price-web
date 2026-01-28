@@ -1,25 +1,54 @@
 from flask import Flask, render_template, request
 import pandas as pd
+import math
 
 app = Flask(__name__)
 
-def normalize(text):
-    return str(text).replace(" ", "").lower()
+def fmt_price(x):
+    if pd.isna(x):
+        return ""
+    return f"{int(x):,} 원"
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    df = pd.read_excel("price.xlsx")
+
+    # NaN → 빈 문자열
+    df = df.fillna("")
+
+    # 드롭다운용 데이터
+    group1_list = sorted(df["group1"].unique())
+
+    selected_group1 = request.form.get("group1", "")
+    selected_group2 = request.form.get("group2", "")
+
+    group2_list = []
     results = None
 
-    if request.method == "POST":
-        keyword = request.form.get("name", "").strip()
+    if selected_group1:
+        group2_list = sorted(
+            df[df["group1"] == selected_group1]["group2"].unique()
+        )
 
-        df = pd.read_excel("price.xlsx")
-        df["_key"] = df["name"].apply(normalize)
-        key = normalize(keyword)
+    if selected_group1 or selected_group2:
+        results = df.copy()
 
-        results = df[df["_key"].str.contains(key)]
+        if selected_group1:
+            results = results[results["group1"] == selected_group1]
 
-    return render_template("index.html", results=results)
+        if selected_group2:
+            results = results[results["group2"] == selected_group2]
+
+        results["price_fmt"] = results["price"].apply(fmt_price)
+
+    return render_template(
+        "index.html",
+        group1_list=group1_list,
+        group2_list=group2_list,
+        results=results,
+        selected_group1=selected_group1,
+        selected_group2=selected_group2,
+    )
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    app.run(debug=True)
