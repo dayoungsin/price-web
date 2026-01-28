@@ -1,53 +1,75 @@
 from flask import Flask, render_template, request
 import pandas as pd
-import math
 
 app = Flask(__name__)
 
-def fmt_price(x):
-    if pd.isna(x):
-        return ""
-    return f"{int(x):,} 원"
+df = pd.read_excel("data.xlsx").fillna("")
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    df = pd.read_excel("price.xlsx")
-
-    # NaN → 빈 문자열
-    df = df.fillna("")
-
-    # 드롭다운용 데이터
-    group1_list = sorted(df["group1"].unique())
-
     selected_group1 = request.form.get("group1", "")
     selected_group2 = request.form.get("group2", "")
+    selected_group3 = request.form.get("group3", "")
+    selected_group4 = request.form.get("group4", "")
 
+    # group1 목록
+    group1_list = sorted(df["group1"].unique())
+
+    # group2
     group2_list = []
-    results = None
-
     if selected_group1:
         group2_list = sorted(
             df[df["group1"] == selected_group1]["group2"].unique()
         )
 
-    if selected_group1 or selected_group2:
-        results = df.copy()
+    # group3
+    group3_list = []
+    if selected_group2:
+        group3_list = sorted(
+            df[
+                (df["group1"] == selected_group1) &
+                (df["group2"] == selected_group2)
+            ]["group3"].unique()
+        )
+        group3_list = [g for g in group3_list if g != ""]
 
-        if selected_group1:
-            results = results[results["group1"] == selected_group1]
+    # group4
+    group4_list = []
+    if selected_group3:
+        group4_list = sorted(
+            df[
+                (df["group1"] == selected_group1) &
+                (df["group2"] == selected_group2) &
+                (df["group3"] == selected_group3)
+            ]["group4"].unique()
+        )
+        group4_list = [g for g in group4_list if g != ""]
 
-        if selected_group2:
-            results = results[results["group2"] == selected_group2]
+    # 결과 필터링
+    results = df.copy()
+    if selected_group1:
+        results = results[results["group1"] == selected_group1]
+    if selected_group2:
+        results = results[results["group2"] == selected_group2]
+    if selected_group3:
+        results = results[results["group3"] == selected_group3]
+    if selected_group4:
+        results = results[results["group4"] == selected_group4]
 
-        results["price_fmt"] = results["price"].apply(fmt_price)
+    if not results.empty:
+        results["price_fmt"] = results["price"].apply(lambda x: f"{int(x):,} 원")
 
     return render_template(
         "index.html",
         group1_list=group1_list,
         group2_list=group2_list,
-        results=results,
+        group3_list=group3_list,
+        group4_list=group4_list,
         selected_group1=selected_group1,
         selected_group2=selected_group2,
+        selected_group3=selected_group3,
+        selected_group4=selected_group4,
+        results=results
     )
 
 if __name__ == "__main__":
