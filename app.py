@@ -19,7 +19,12 @@ def index():
 
         results = df[df["_key"].str.contains(key)]
 
+results["price_fmt"] = results["price"].apply(
+    lambda x: f"{int(x):,} 원"
+)
+
     return render_template("index.html", results=results)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
