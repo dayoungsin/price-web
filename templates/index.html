@@ -98,8 +98,8 @@
             </span><br>
         {% endif %}
         <span style="font-weight: bold;">
-            {{ "{:,}".format(r["price"]) }} 원
-        </span>
+    {{ r["price_fmt"] }}
+</span>
     </li>
 {% endfor %}
 
@@ -108,4 +108,5 @@
   </div>
 </body>
 </html>
+
 
