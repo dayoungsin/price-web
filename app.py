@@ -3,29 +3,28 @@ import pandas as pd
 
 app = Flask(__name__)
 
-def normalize(text):
-    return str(text).replace(" ", "").lower()
-
 @app.route("/", methods=["GET", "POST"])
 def index():
-    results = None
+    df = pd.read_excel("price.xlsx")
 
-    if request.method == "POST":
-        keyword = request.form.get("name", "").strip()
+    group1_list = sorted(df["group1"].dropna().unique())
 
-        df = pd.read_excel("price.xlsx")
+    selected_group1 = request.form.get("group1")
+    group2_list = []
 
-        df["_key"] = df["name"].apply(normalize)
-        key = normalize(keyword)
-
-        results = df[df["_key"].str.contains(key)]
-
-        # 🔽 여기 반드시 if 안에 있어야 함
-        results["price_fmt"] = results["price"].apply(
-            lambda x: f"{int(x):,} 원"
+    if selected_group1:
+        group2_list = sorted(
+            df[df["group1"] == selected_group1]["group2"]
+            .dropna()
+            .unique()
         )
 
-    return render_template("index.html", results=results)
+    return render_template(
+        "index.html",
+        group1_list=group1_list,
+        group2_list=group2_list,
+        selected_group1=selected_group1
+    )
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
