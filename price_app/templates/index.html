@@ -1,23 +1,102 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<meta charset="utf-8">
-<title>단가 조회</title>
+  <meta charset="utf-8">
+  <title>단가 조회</title>
+
+  <!-- 📱 모바일 핵심 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+      background-color: #f7f7f7;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    input[type="text"] {
+      font-size: 16px;   /* iOS 자동 확대 방지 */
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      font-size: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background-color: #4f46e5;
+      color: white;
+      font-weight: 600;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      font-size: 15px;
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+
+    .price {
+      font-weight: 600;
+      color: #111827;
+    }
+  </style>
 </head>
+
 <body>
-<h2>회사 단가 조회</h2>
+  <div class="container">
+    <h2>회사 단가 조회</h2>
 
-<form method="post">
-    <input type="text" name="name" placeholder="품명 입력">
-    <button type="submit">검색</button>
-</form>
+    <form method="post">
+      <input type="text" name="name" placeholder="품명 입력">
+      <button type="submit">검색</button>
+    </form>
 
-{% if results is not none %}
-    <ul>
-    {% for _, r in results.iterrows() %}
-        <li>{{ r["name"] }} : {{ "{:,}".format(r["price"]) }} 원</li>
-    {% endfor %}
-    </ul>
-{% endif %}
+    {% if results is not none %}
+      <ul>
+        {% for _, r in results.iterrows() %}
+          <li>
+            <span>{{ r["name"] }}</span>
+            <span class="price">{{ "{:,}".format(r["price"]) }} 원</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
 </body>
 </html>
