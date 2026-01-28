@@ -89,14 +89,23 @@
 
     {% if results is not none %}
       <ul>
-        {% for _, r in results.iterrows() %}
-          <li>
-            <span>{{ r["name"] }}</span>
-            <span class="price">{{ "{:,}".format(r["price"]) }} 원</span>
-          </li>
-        {% endfor %}
+{% for _, r in results.iterrows() %}
+    <li>
+        <strong>{{ r["name"] }}</strong><br>
+        {% if r["note"] %}
+            <span style="color: gray; font-size: 14px;">
+                ※ {{ r["note"] }}
+            </span><br>
+        {% endif %}
+        <span style="font-weight: bold;">
+            {{ "{:,}".format(r["price"]) }} 원
+        </span>
+    </li>
+{% endfor %}
+
       </ul>
     {% endif %}
   </div>
 </body>
 </html>
+
