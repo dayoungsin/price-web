@@ -3,7 +3,7 @@ import pandas as pd
 
 app = Flask(__name__)
 
-df = pd.read_excel("data.xlsx").fillna("")
+df = pd.read_excel("price.xlsx").fillna("")
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -74,3 +74,4 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
