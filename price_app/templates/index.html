@@ -83,6 +83,8 @@
   box-shadow: 0 6px 16px rgba(0,0,0,0.08);
 
   transition: all 0.3s ease;
+
+  pointer-events: auto; /* ✅ 기본 */
 }
 
 .logo {
@@ -99,7 +101,9 @@
 /* 👇 스크롤 시 줄어든 상태 */
 .app-header.shrink {
   padding: 8px 16px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+
+  pointer-events: none; /* ✅ 줄어들면 터치 안 먹음 */
 }
 
 .app-header.shrink .logo {
@@ -251,7 +255,7 @@
   const header = document.getElementById("appHeader");
 
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 30) {
+    if (window.scrollY > 20) {
       header.classList.add("shrink");
     } else {
       header.classList.remove("shrink");
@@ -260,6 +264,7 @@
 </script>
 </body>
 </html>
+
 
 
 
