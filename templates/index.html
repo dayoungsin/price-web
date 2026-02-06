@@ -172,7 +172,7 @@
     <form method="post">
 
   <!-- group1 -->
-  <select name="group1" onchange="this.form.submit()">
+  <select name="group1">
     <option value="">구분 1 선택</option>
     {% for g in group1_list %}
       <option value="{{ g }}" {% if g == selected_group1 %}selected{% endif %}>
@@ -183,7 +183,7 @@
 
   <!-- group2 -->
   {% if group2_list %}
-  <select name="group2" onchange="this.form.submit()">
+  <select name="group2">
     <option value="">구분 2 선택</option>
     {% for g in group2_list %}
       <option value="{{ g }}" {% if g == selected_group2 %}selected{% endif %}>
@@ -195,7 +195,7 @@
 
   <!-- group3 -->
   {% if group3_list %}
-  <select name="group3" onchange="this.form.submit()">
+  <select name="group3">
     <option value="">구분 3 선택</option>
     {% for g in group3_list %}
       <option value="{{ g }}" {% if g == selected_group3 %}selected{% endif %}>
@@ -207,7 +207,7 @@
 
   <!-- group4 -->
   {% if group4_list %}
-  <select name="group4" onchange="this.form.submit()">
+  <select name="group4">
     <option value="">구분 4 선택</option>
     {% for g in group4_list %}
       <option value="{{ g }}" {% if g == selected_group4 %}selected{% endif %}>
@@ -217,6 +217,8 @@
   </select>
   {% endif %}
 
+  <button type="submit" style="display:none;"></button>
+      
 </form>
 
 
@@ -263,6 +265,7 @@
 </script>
 </body>
 </html>
+
 
 
 
