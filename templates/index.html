@@ -179,21 +179,49 @@
 <select name="group1" onchange="onGroup1Change(this.value)">
   <option value="">구분 1 선택</option>
   {% for g in group1_list %}
-    <option value="{{ g }}">{{ g }}</option>
+    <option value="{{ g }}"
+      {% if g == selected_group1 %}selected{% endif %}>
+      {{ g }}
+    </option>
   {% endfor %}
 </select>
 
 <!-- group2 -->
-<select name="group2" onchange="onGroup2Change(this.value)" disabled>
+<select name="group2" onchange="onGroup2Change(this.value)">
   <option value="">구분 2 선택</option>
+  {% if group2_list %}
+    {% for g in group2_list %}
+      <option value="{{ g }}"
+        {% if g == selected_group2 %}selected{% endif %}>
+        {{ g }}
+      </option>
+    {% endfor %}
+  {% endif %}
 </select>
 
-<select name="group3" onchange="onGroup3Change(this.value); this.form.submit();">
+<select name="group3"
+        onchange="onGroup3Change(this.value); this.form.submit();">
   <option value="">구분 3 선택</option>
+  {% if group3_list %}
+    {% for g in group3_list %}
+      <option value="{{ g }}"
+        {% if g == selected_group3 %}selected{% endif %}>
+        {{ g }}
+      </option>
+    {% endfor %}
+  {% endif %}
 </select>
 
-<select name="group4" disabled>
+<select name="group4" onchange="this.form.submit();">
   <option value="">구분 4 선택</option>
+  {% if group4_list %}
+    {% for g in group4_list %}
+      <option value="{{ g }}"
+        {% if g == selected_group4 %}selected{% endif %}>
+        {{ g }}
+      </option>
+    {% endfor %}
+  {% endif %}
 </select>
 
 
@@ -336,6 +364,7 @@ async function onGroup3Change(value) {
   
 </body>
 </html>
+
 
 
 
