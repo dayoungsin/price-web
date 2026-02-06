@@ -82,6 +82,7 @@ def index():
 
 @app.route("/api/groups", methods=["POST"])
 def api_groups():
+    data = request.get_json()
     df = pd.read_excel("price.xlsx")
 
     g1 = request.json.get("group1")
@@ -90,34 +91,33 @@ def api_groups():
 
     data = {}
 
-    if g1 and not g2:
-        data["group2"] = sorted(
+    if g1:
+        result["group2"] = sorted(
             df[df["group1"] == g1]["group2"]
             .dropna().unique().tolist()
         )
 
-    if g1 and g2 and not g3:
-        data["group3"] = sorted(
+    if g1 and g2:
+        result["group3"] = sorted(
             df[
                 (df["group1"] == g1) &
                 (df["group2"] == g2)
-            ]["group3"]
-            .dropna().unique().tolist()
+            ]["group3"].dropna().unique().tolist()
         )
 
     if g1 and g2 and g3:
-        data["group4"] = sorted(
+        result["group4"] = sorted(
             df[
                 (df["group1"] == g1) &
                 (df["group2"] == g2) &
                 (df["group3"] == g3)
-            ]["group4"]
-            .dropna().unique().tolist()
+            ]["group4"].dropna().unique().tolist()
         )
 
-    return jsonify(data)
+    return jsonify(result)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
 
