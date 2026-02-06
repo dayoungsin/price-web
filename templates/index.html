@@ -176,7 +176,7 @@
     <form method="post">
 
   <!-- group1 -->
-  <select name="group1" onchange="this.form.submit()">
+  <select name="group1" onchange="onGroup1Change(this.value)">
     <option value="">구분 1 선택</option>
     {% for g in group1_list %}
       <option value="{{ g }}" {% if g == selected_group1 %}selected{% endif %}>
@@ -187,13 +187,8 @@
 
   <!-- group2 -->
   {% if group2_list %}
-  <select name="group2" onchange="this.form.submit()">
+  <select name="group2">
     <option value="">구분 2 선택</option>
-    {% for g in group2_list %}
-      <option value="{{ g }}" {% if g == selected_group2 %}selected{% endif %}>
-        {{ g }}
-      </option>
-    {% endfor %}
   </select>
   {% endif %}
 
@@ -267,8 +262,34 @@
     }
   });
 </script>
+  
+<script>
+async function onGroup1Change(value) {
+  const res = await fetch("/api/groups", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ group1: value })
+  });
+
+  const data = await res.json();
+
+  const group2 = document.querySelector("select[name='group2']");
+  group2.innerHTML = '<option value="">구분 2 선택</option>';
+
+  if (data.group2) {
+    data.group2.forEach(v => {
+      const opt = document.createElement("option");
+      opt.value = v;
+      opt.textContent = v;
+      group2.appendChild(opt);
+    });
+  }
+}
+</script>
+  
 </body>
 </html>
+
 
 
 
