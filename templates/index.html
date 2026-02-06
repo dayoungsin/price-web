@@ -54,31 +54,48 @@
   font-weight: 600;
 }
 
-    .app-header {
+    /* =========================
+   상단 헤더
+========================= */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #ffffff;
   display: flex;
   align-items: center;
-  justify-content: center;   /* 수평 중앙 */
-  gap: 14px;
+  gap: 12px;
+  padding: 20px 16px;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
 
-  padding: 18px 16px;
-  margin-bottom: 24px;
-
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  transition: all 0.3s ease;
 }
 
 .logo {
-  height: 42px;   /* 👈 로고 크게 */
-  width: auto;
+  height: 40px;
+  transition: all 0.3s ease;
 }
 
 .company-name {
-  font-size: 22px;   /* 👈 글씨 크게 */
+  font-size: 22px;
   font-weight: 800;
-  color: #111827;
-  letter-spacing: -0.3px;
+  transition: all 0.3s ease;
 }
+
+/* 👇 스크롤 시 줄어든 상태 */
+.app-header.shrink {
+  padding: 10px 16px;
+}
+
+.app-header.shrink .logo {
+  height: 28px;
+}
+
+.app-header.shrink .company-name {
+  font-size: 16px;
+}
+
     .result-list {
       display: flex;
       flex-direction: column;
@@ -127,11 +144,13 @@
 </head>
 
 <body>
+    <!-- 🔹 헤더는 container 밖 -->
+  <div class="app-header" id="appHeader">
+    <img src="/static/logo.png" alt="회사 로고" class="logo">
+    <span class="company-name">에이치에스이엔지(주)</span>
+  </div>
   <div class="container">
-    <div class="app-header">
-  <img src="/static/logo.png" alt="회사 로고" class="logo">
-  <span class="company-name">에이치에스이엔지(주)</span>
-</div>
+    
 
     <form method="post">
 
@@ -214,8 +233,20 @@
 {% endif %}
 
   </div>
+  <script>
+  const header = document.getElementById("appHeader");
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 30) {
+      header.classList.add("shrink");
+    } else {
+      header.classList.remove("shrink");
+    }
+  });
+</script>
 </body>
 </html>
+
 
 
 
