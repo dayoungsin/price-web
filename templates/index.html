@@ -71,10 +71,16 @@
   gap: 10px;
 }
 
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
 .card-name {
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: -0.3px;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .card-note {
@@ -87,11 +93,10 @@
 }
 
 .card-price {
-  margin-top: 8px;
-  font-size: 18px;
-  font-weight: 800;
+  font-size: 16px;
+  font-weight: 700;
   color: #4f46e5;
-  text-align: right;
+  white-space: nowrap;
 }
 
   </style>
@@ -158,17 +163,19 @@
     {% if not results.empty %}
       {% for _, r in results.iterrows() %}
         <div class="card">
-          <div class="card-name">{{ r["name"] }}</div>
 
-          {% if r["note"] %}
-  <div class="card-note" style="white-space: pre-line;">
-    ※ {{ r["note"] }}
+  <div class="card-header">
+    <div class="card-name">{{ r["name"] }}</div>
+    <div class="card-price">{{ r["price_fmt"] }}</div>
   </div>
-{% endif %}
 
-<div class="card-price">{{ r["price_fmt"] }}</div>
+  {% if r["note"] %}
+    <div class="card-note" style="white-space: pre-line;">
+      ※ {{ r["note"] }}
+    </div>
+  {% endif %}
 
-        </div>
+</div>
       {% endfor %}
     {% else %}
       <p style="text-align:center; color:#6b7280;">
@@ -182,5 +189,7 @@
   </div>
 </body>
 </html>
+
+
 
 
