@@ -6,10 +6,6 @@ app = Flask(__name__)
 def normalize(text):
     return str(text).replace(" ", "").lower()
 
-@app.route("/manifest.json")
-def manifest():
-    return send_from_directory(".", "manifest.json")
-
 @app.route("/", methods=["GET", "POST"])
 def index():
     results = None
@@ -32,3 +28,4 @@ def index():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
