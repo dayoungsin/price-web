@@ -272,6 +272,7 @@ async function onGroup1Change(value) {
   });
 
   const data = await res.json();
+  console.log(data);
 
   const group2 = document.querySelector("select[name='group2']");
   group2.innerHTML = '<option value="">구분 2 선택</option>';
@@ -289,6 +290,7 @@ async function onGroup1Change(value) {
   
 </body>
 </html>
+
 
 
 
