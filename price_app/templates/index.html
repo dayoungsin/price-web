@@ -188,7 +188,7 @@
   <option value="">구분 2 선택</option>
 </select>
 
-<select name="group3" onchange="onGroup2Change(this.value)" disabled>
+<select name="group3" onchange="onGroup3Change(this.value); this.form.submit();">
   <option value="">구분 3 선택</option>
 </select>
 
@@ -336,6 +336,7 @@ async function onGroup3Change(value) {
   
 </body>
 </html>
+
 
 
 
