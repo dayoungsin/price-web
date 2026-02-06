@@ -62,9 +62,12 @@
   top: 0;
   z-index: 100;
   background: #ffffff;
+
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
+
   padding: 20px 16px;
   border-radius: 0 0 16px 16px;
   box-shadow: 0 6px 16px rgba(0,0,0,0.08);
@@ -73,19 +76,20 @@
 }
 
 .logo {
-  height: 40px;
-  transition: all 0.3s ease;
+  height: 42px;
+  transition: height 0.3s ease;
 }
 
 .company-name {
   font-size: 22px;
-  font-weight: 800;
-  transition: all 0.3s ease;
+  font-weight: 700;
+  transition: font-size 0.3s ease;
 }
 
 /* 👇 스크롤 시 줄어든 상태 */
 .app-header.shrink {
-  padding: 10px 16px;
+  padding: 8px 16px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
 }
 
 .app-header.shrink .logo {
@@ -93,7 +97,7 @@
 }
 
 .app-header.shrink .company-name {
-  font-size: 16px;
+  font-size: 18px;
 }
 
     .result-list {
@@ -246,6 +250,7 @@
 </script>
 </body>
 </html>
+
 
 
 
