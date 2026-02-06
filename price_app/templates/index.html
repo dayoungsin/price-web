@@ -184,11 +184,11 @@
 </select>
 
 <!-- group2 -->
-<select name="group2" disabled onchange="onGroup2Change(this.value)">
+<select name="group2" onchange="onGroup2Change(this.value)" disabled>
   <option value="">구분 2 선택</option>
 </select>
 
-<select name="group3" disabled onchange="onGroup3Change(this.value)">
+<select name="group3" onchange="onGroup2Change(this.value)" disabled>
   <option value="">구분 3 선택</option>
 </select>
 
@@ -264,15 +264,18 @@ async function onGroup1Change(value) {
   resetSelect("group3", "구분 3 선택");
   resetSelect("group4", "구분 4 선택");
 
-  document.querySelector('[name="group2"]').disabled = true;
-  document.querySelector('[name="group3"]').disabled = true;
-  document.querySelector('[name="group4"]').disabled = true;
+  const g2 = document.querySelector('[name="group2"]');
+  const g3 = document.querySelector('[name="group3"]');
+  const g4 = document.querySelector('[name="group4"]');
+
+  g2.disabled = true;
+  g3.disabled = true;
+  g4.disabled = true;
 
   if (!value) return;
 
   const data = await fetchGroups({ group1: value });
 
-  const g2 = document.querySelector('[name="group2"]');
   (data.group2 || []).forEach(v => g2.add(new Option(v, v)));
 
   if (data.group2 && data.group2.length > 0) {
@@ -333,6 +336,7 @@ async function onGroup3Change(value) {
   
 </body>
 </html>
+
 
 
 
