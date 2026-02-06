@@ -184,19 +184,18 @@
 </select>
 
 <!-- group2 -->
-<select name="group2" onchange="onGroup2Change(this.value)">
+<select name="group2" disabled onchange="onGroup2Change(this.value)">
   <option value="">구분 2 선택</option>
 </select>
 
-<!-- group3 -->
-<select name="group3" onchange="onGroup3Change(this.value)">
+<select name="group3" disabled onchange="onGroup3Change(this.value)">
   <option value="">구분 3 선택</option>
 </select>
 
-<!-- group4 -->
-<select name="group4">
+<select name="group4" disabled>
   <option value="">구분 4 선택</option>
 </select>
+
 
   <button type="submit" style="display:none;"></button>
       
@@ -265,36 +264,56 @@ async function onGroup1Change(value) {
   resetSelect("group3", "구분 3 선택");
   resetSelect("group4", "구분 4 선택");
 
+  document.querySelector('[name="group2"]').disabled = true;
+  document.querySelector('[name="group3"]').disabled = true;
+  document.querySelector('[name="group4"]').disabled = true;
+
   if (!value) return;
 
   const data = await fetchGroups({ group1: value });
 
   const g2 = document.querySelector('[name="group2"]');
-  (data.group2 || []).forEach(v => {
-    g2.add(new Option(v, v));
-  });
+  (data.group2 || []).forEach(v => g2.add(new Option(v, v)));
+
+  if (data.group2 && data.group2.length > 0) {
+    g2.disabled = false;
+  }
 }
 
 async function onGroup2Change(value) {
   resetSelect("group3", "구분 3 선택");
   resetSelect("group4", "구분 4 선택");
 
+  const g3 = document.querySelector('[name="group3"]');
+  const g4 = document.querySelector('[name="group4"]');
+
+  g3.disabled = true;
+  g4.disabled = true;
+
   const g1 = document.querySelector('[name="group1"]').value;
   if (!g1 || !value) return;
 
-  const data = await fetchGroups({ group1: g1, group2: value });
-
-  const g3 = document.querySelector('[name="group3"]');
-  (data.group3 || []).forEach(v => {
-    g3.add(new Option(v, v));
+  const data = await fetchGroups({
+    group1: g1,
+    group2: value
   });
+
+  (data.group3 || []).forEach(v => g3.add(new Option(v, v)));
+
+  if (data.group3?.length) {
+    g3.disabled = false;
+  }
 }
 
 async function onGroup3Change(value) {
   resetSelect("group4", "구분 4 선택");
 
+  const g4 = document.querySelector('[name="group4"]');
+  g4.disabled = true;
+
   const g1 = document.querySelector('[name="group1"]').value;
   const g2 = document.querySelector('[name="group2"]').value;
+
   if (!g1 || !g2 || !value) return;
 
   const data = await fetchGroups({
@@ -303,15 +322,18 @@ async function onGroup3Change(value) {
     group3: value
   });
 
-  const g4 = document.querySelector('[name="group4"]');
-  (data.group4 || []).forEach(v => {
-    g4.add(new Option(v, v));
-  });
+  (data.group4 || []).forEach(v => g4.add(new Option(v, v)));
+
+  if (data.group4 && data.group4.length > 0) {
+    g4.disabled = false;
+  }
 }
+
 </script>
   
 </body>
 </html>
+
 
 
 
